@@ -1,0 +1,155 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+:root {
+    --bg-dark: #020b05; /* Very dark green/black */
+    --nav-bg: #041408;
+    --primary-green: #1f9c40; /* Similar to the button in image */
+    --light-green: #a7f3d0; /* Highlight text */
+}
+
+body {
+    background-color: var(--bg-dark);
+    font-family: 'Inter', sans-serif;
+    color: #ffffff;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.custom-nav-container {
+    background-color: var(--nav-bg);
+    border-radius: 50px;
+    padding: 10px 24px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+}
+
+.text-highlight {
+    color: var(--light-green) !important;
+}
+
+.text-primary-green {
+    color: var(--primary-green) !important;
+}
+
+.bg-primary-green {
+    background-color: var(--primary-green) !important;
+}
+
+.btn-primary-green {
+    background-color: var(--primary-green);
+    border-color: var(--primary-green);
+    color: white;
+    transition: all 0.3s ease;
+}
+
+.btn-primary-green:hover {
+    background-color: #178333;
+    border-color: #178333;
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(31, 156, 64, 0.4) !important;
+}
+
+.btn-outline-dark-custom {
+    background-color: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: white;
+    transition: all 0.3s ease;
+}
+
+.btn-outline-dark-custom:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+    color: white;
+    transform: translateY(-3px);
+}
+
+.badge-custom {
+    background-color: rgba(31, 156, 64, 0.15);
+    border: 1px solid rgba(31, 156, 64, 0.4);
+    color: var(--light-green);
+}
+
+.hero-section {
+    padding: 120px 0 60px;
+    background: radial-gradient(circle at top center, rgba(31, 156, 64, 0.12) 0%, transparent 60%);
+    position: relative;
+}
+
+.hero-title {
+    letter-spacing: -1.5px;
+}
+
+/* Video Cards */
+.aspect-video {
+    aspect-ratio: 16 / 9;
+}
+.video-card {
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+.video-card:hover {
+    transform: translateY(-8px);
+}
+.video-card img {
+    transition: transform 0.5s ease, opacity 0.5s ease;
+}
+.video-card:hover img {
+    transform: scale(1.05);
+    opacity: 0.9 !important;
+}
+.play-btn-overlay {
+    opacity: 0;
+    transition: all 0.3s ease;
+    transform: translate(-50%, -50%) scale(0.8);
+}
+.video-card:hover .play-btn-overlay {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+}
+.drop-shadow {
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.5));
+}
+.hover-underline:hover {
+    text-decoration: underline !important;
+}
+
+/* Admin Section Gradient */
+.bg-gradient-admin {
+    background: linear-gradient(90deg, transparent, rgba(31, 156, 64, 0.2));
+}
+
+/* Tracking */
+.tracking-widest { letter-spacing: 0.1em; }
+.tracking-wider { letter-spacing: 0.05em; }
+
+/* Transitions */
+.transition-all { transition: all 0.3s ease; }
+
+/* Interactive elements */
+.social-btn:hover {
+    background-color: var(--primary-green) !important;
+    border-color: var(--primary-green) !important;
+    transform: translateY(-3px);
+}
+.hover-white:hover {
+    color: white !important;
+    opacity: 1 !important;
+}
+.app-btn:hover {
+    background-color: rgba(255, 255, 255, 0.05) !important;
+    border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+/* Accordion Customization */
+.custom-accordion .accordion-button::after {
+    filter: invert(1);
+}
+.custom-accordion .accordion-button:not(.collapsed) {
+    color: var(--light-green);
+    background-color: rgba(31, 156, 64, 0.1) !important;
+}
+.custom-accordion .accordion-button:focus {
+    border-color: rgba(31, 156, 64, 0.5);
+    box-shadow: 0 0 0 0.25rem rgba(31, 156, 64, 0.25);
+}

@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h3>Telegram Bot Settings</h3>
+
+<div class="card p-4 mt-3">
+    <label>Bot Token</label>
+    <input type="text" class="form-control mb-3" placeholder="Enter bot token">
+
+    <label>Channel ID</label>
+    <input type="text" class="form-control mb-3" placeholder="@channelname">
+
+    <button class="btn btn-success">Save</button>
+</div>
+
+{% endblock %}

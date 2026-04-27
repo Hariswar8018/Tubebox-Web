@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tubebox - Watch & Upload Videos</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/style.css') }}">
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-transparent pt-4">
+        <div class="container">
+            <div class="custom-nav-container w-100 d-flex justify-content-between align-items-center">
+                <a class="navbar-brand fw-bold text-white fs-4 d-flex align-items-center gap-2" href="#">
+                    <i class="fa-solid fa-play text-highlight"></i>
+                    <span>Tube<span class="text-highlight">box</span></span>
+                </a>
+                <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                    <ul class="navbar-nav align-items-center gap-3">
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="#">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="#">Movies</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="btn btn-sm btn-outline-dark-custom rounded-pill px-3 py-2" href="#">Admin
+                                Login</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section text-center d-flex align-items-center justify-content-center flex-column">
+        <div class="container">
+            <div class="badge badge-custom rounded-pill px-4 py-2 mb-4 fs-6 fw-medium">
+                Watch, Upload & Manage
+            </div>
+
+            <h1 class="display-3 fw-bold text-white mb-4 hero-title">
+                Your Ultimate Hub for <span class="text-highlight">Videos & Movies</span>
+            </h1>
+
+            <p class="lead text-light opacity-75 mb-5 mx-auto"
+                style="max-width: 750px; font-size: 1.15rem; line-height: 1.6;">
+                Seamlessly watch any video or movie on the app. Creators can easily upload content via our Telegram Bot
+                integration. Everything is securely managed through 1 powerful Admin Control.
+            </p>
+
+            <div class="d-flex justify-content-center gap-3 flex-wrap mb-5">
+                <a href="/app"
+                    class="btn btn-primary-green btn-lg px-4 py-3 rounded-4 fw-bold shadow-sm d-flex align-items-center gap-2">
+                    <i class="fa-solid fa-circle-play fs-5"></i> Start Watching — Free
+                </a>
+                <a href="/login"
+                    class="btn btn-outline-dark-custom btn-lg px-4 py-3 rounded-4 fw-bold d-flex align-items-center gap-2">
+                    <i class="fa-brands fa-telegram fs-5"></i> Upload via Telegram
+                </a>
+            </div>
+
+            <p class="text-muted small mb-5 opacity-50" style="font-size: 0.85rem;">By continuing you agree to our Terms
+                & Conditions</p>
+
+            <div class="features-row d-flex justify-content-center flex-wrap gap-4 gap-md-5 text-light mt-4 pb-5">
+                <div class="feature-item d-flex align-items-center gap-2">
+                    <i class="fa-solid fa-link text-primary-green fs-5"></i>
+                    <span class="fw-semibold text-white opacity-75">Unlimited Views</span>
+                </div>
+                <div class="feature-item d-flex align-items-center gap-2">
+                    <i class="fa-solid fa-eye text-primary-green fs-5"></i>
+                    <span class="fw-semibold text-white opacity-75">Unlimited Streaming</span>
+                </div>
+                <div class="feature-item d-flex align-items-center gap-2">
+                    <i class="fa-solid fa-bolt text-primary-green fs-5"></i>
+                    <span class="fw-semibold text-white opacity-75">Telegram Integrations</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Additional Content: Trending / Admin Showcase -->
+    <section class="py-5 bg-black bg-opacity-50">
+        <div class="container py-4">
+            <div class="d-flex justify-content-between align-items-end mb-4">
+                <div>
+                    <h3 class="fw-bold mb-1">Trending <span class="text-highlight">Movies</span></h3>
+                    <p class="text-muted mb-0 small">Watch the latest content uploaded by the community</p>
+                </div>
+                <a href="#" class="text-highlight text-decoration-none fw-medium hover-underline">View All</a>
+            </div>
+            <div class="row g-4">
+                <!-- Card 1 -->
+                <div class="col-md-4">
+                    <div class="card bg-transparent border-0 video-card h-100">
+                        <div class="position-relative rounded-4 overflow-hidden mb-3 aspect-video bg-dark shadow-sm">
+                            <img src="https://images.unsplash.com/photo-1536440136628-849c177e76a1?auto=format&fit=crop&w=800&q=80"
+                                class="w-100 h-100 object-fit-cover opacity-75" alt="Movie">
+                            <div class="position-absolute top-50 start-50 translate-middle play-btn-overlay">
+                                <i class="fa-solid fa-circle-play fa-3x text-white drop-shadow"></i>
+                            </div>
+                            <span
+                                class="position-absolute bottom-0 end-0 m-2 badge bg-dark text-white opacity-75">2:15:00</span>
+                        </div>
+                        <h5 class="fw-bold text-white mb-1">Epic Journey</h5>
+                        <p class="text-muted small mb-0"><i class="fa-brands fa-telegram text-primary-green me-1"></i>
+                            Uploaded via Telegram</p>
+                    </div>
+                </div>
+                <!-- Card 2 -->
+                <div class="col-md-4">
+                    <div class="card bg-transparent border-0 video-card h-100">
+                        <div class="position-relative rounded-4 overflow-hidden mb-3 aspect-video bg-dark shadow-sm">
+                            <img src="https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&w=800&q=80"
+                                class="w-100 h-100 object-fit-cover opacity-75" alt="Movie">
+                            <div class="position-absolute top-50 start-50 translate-middle play-btn-overlay">
+                                <i class="fa-solid fa-circle-play fa-3x text-white drop-shadow"></i>
+                            </div>
+                            <span
+                                class="position-absolute bottom-0 end-0 m-2 badge bg-dark text-white opacity-75">1:42:30</span>
+                        </div>
+                        <h5 class="fw-bold text-white mb-1">Cinematic Visuals</h5>
+                        <p class="text-muted small mb-0"><i class="fa-solid fa-user-shield text-primary-green me-1"></i>
+                            Admin Upload</p>
+                    </div>
+                </div>
+                <!-- Card 3 -->
+                <div class="col-md-4">
+                    <div class="card bg-transparent border-0 video-card h-100">
+                        <div class="position-relative rounded-4 overflow-hidden mb-3 aspect-video bg-dark shadow-sm">
+                            <img src="https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?auto=format&fit=crop&w=800&q=80"
+                                class="w-100 h-100 object-fit-cover opacity-75" alt="Movie">
+                            <div class="position-absolute top-50 start-50 translate-middle play-btn-overlay">
+                                <i class="fa-solid fa-circle-play fa-3x text-white drop-shadow"></i>
+                            </div>
+                            <span
+                                class="position-absolute bottom-0 end-0 m-2 badge bg-dark text-white opacity-75">45:10</span>
+                        </div>
+                        <h5 class="fw-bold text-white mb-1">Tech Documentary</h5>
+                        <p class="text-muted small mb-0"><i class="fa-brands fa-telegram text-primary-green me-1"></i>
+                            Uploaded via Telegram</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Video / Help Section -->
+    <section class="py-5 bg-black">
+        <div class="container py-5">
+            <div class="row align-items-center g-5">
+                <div class="col-lg-5">
+                    <div
+                        class="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill border border-success border-opacity-25 bg-success bg-opacity-10 text-highlight mb-3 small fw-semibold">
+                        <i class="fa-solid fa-play"></i> Tubebox Exclusive
+                    </div>
+                    <h2 class="display-6 fw-bold mb-4">See How Tubebox Works</h2>
+                    <p class="text-light opacity-75 mb-4">Watch our quick tutorial to learn how you can start watching
+                        movies or uploading your own content via Telegram in seconds. Our platform is designed for
+                        simplicity and speed.</p>
+                    <div class="d-flex gap-4">
+                        <div>
+                            <h3 class="text-highlight fw-bold mb-0">100%</h3>
+                            <p class="text-white small">Free to Watch</p>
+                        </div>
+                        <div>
+                            <h3 class="text-highlight fw-bold mb-0"><i class="fa-solid fa-infinity"></i></h3>
+                            <p class="text-white small">Unlimited Streaming</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-7">
+                    <div class="position-relative rounded-4 overflow-hidden border border-success border-opacity-25 shadow-lg"
+                        style="aspect-ratio: 16/9;">
+                        <!-- YouTube Embed -->
+                        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/dQw4w9WgXcQ?si=abcdefg"
+                            title="YouTube video player" frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            allowfullscreen style="position: absolute; top: 0; left: 0;"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="py-5">
+        <div class="container py-5 text-center">
+            <p class="text-highlight fw-semibold tracking-widest text-uppercase small mb-2">How It Works</p>
+            <h2 class="display-5 fw-bold mb-3">Upload, Watch & Manage</h2>
+            <p class="text-white mx-auto mb-5" style="max-width: 600px;">Creators upload content seamlessly, consumers
+                access it instantly, and admins manage everything from a single dashboard.</p>
+
+            <div class="row g-4 justify-content-center pt-4">
+                <!-- Step 1 -->
+                <div class="col-md-3 col-sm-6">
+                    <div class="position-relative">
+                        <div class="step-icon-bg mx-auto mb-4 d-flex align-items-center justify-content-center rounded-circle bg-dark border border-success border-opacity-25"
+                            style="width: 80px; height: 80px;">
+                            <i class="fa-solid fa-cloud-arrow-up fa-2x text-primary-green"></i>
+                            <span
+                                class="position-absolute top-0 start-50 translate-middle-x badge rounded-pill bg-primary-green text-white"
+                                style="margin-top: -10px;">01</span>
+                        </div>
+                        <h5 class="fw-bold">Upload</h5>
+                        <p class="text-white small px-2">Upload any video via Telegram bots or Admin panel</p>
+                    </div>
+                </div>
+                <!-- Step 2 -->
+                <div class="col-md-3 col-sm-6">
+                    <div class="position-relative">
+                        <div class="step-icon-bg mx-auto mb-4 d-flex align-items-center justify-content-center rounded-circle bg-dark border border-success border-opacity-25"
+                            style="width: 80px; height: 80px;">
+                            <i class="fa-solid fa-share-nodes fa-2x text-primary-green"></i>
+                            <span
+                                class="position-absolute top-0 start-50 translate-middle-x badge rounded-pill bg-primary-green text-white"
+                                style="margin-top: -10px;">02</span>
+                        </div>
+                        <h5 class="fw-bold">Share</h5>
+                        <p class="text-white small px-2">Share the video links directly with your audience</p>
+                    </div>
+                </div>
+                <!-- Step 3 -->
+                <div class="col-md-3 col-sm-6">
+                    <div class="position-relative">
+                        <div class="step-icon-bg mx-auto mb-4 d-flex align-items-center justify-content-center rounded-circle bg-dark border border-success border-opacity-25"
+                            style="width: 80px; height: 80px;">
+                            <i class="fa-solid fa-play fa-2x text-primary-green"></i>
+                            <span
+                                class="position-absolute top-0 start-50 translate-middle-x badge rounded-pill bg-primary-green text-white"
+                                style="margin-top: -10px;">03</span>
+                        </div>
+                        <h5 class="fw-bold">Watch</h5>
+                        <p class="text-white small px-2">Consumers enjoy seamless, fast video streaming</p>
+                    </div>
+                </div>
+                <!-- Step 4 -->
+                <div class="col-md-3 col-sm-6">
+                    <div class="position-relative">
+                        <div class="step-icon-bg mx-auto mb-4 d-flex align-items-center justify-content-center rounded-circle bg-dark border border-success border-opacity-25"
+                            style="width: 80px; height: 80px;">
+                            <i class="fa-solid fa-user-shield fa-2x text-primary-green"></i>
+                            <span
+                                class="position-absolute top-0 start-50 translate-middle-x badge rounded-pill bg-primary-green text-white"
+                                style="margin-top: -10px;">04</span>
+                        </div>
+                        <h5 class="fw-bold">Manage</h5>
+                        <p class="text-white small px-2">1 Admin controls the entire platform effortlessly</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Split -->
+    <section class="py-5 bg-black bg-opacity-50">
+        <div class="container py-4">
+            <div class="row g-4">
+                <!-- For Creators -->
+                <div class="col-md-6">
+                    <div
+                        class="bg-dark bg-opacity-50 rounded-4 p-4 p-md-5 border border-secondary border-opacity-25 h-100">
+
+                        <p class="text-white fw-bold text-uppercase small mb-2">
+                            <i class="fa-solid fa-video me-2 text-white"></i>
+                            For Creators
+                        </p>
+                        <h3 class="fw-bold mb-3">Publishers</h3>
+                        <p class="text-white opacity-75 mb-4">Upload videos easily and reach a wider audience.</p>
+
+                        <ul class="list-unstyled mb-0 d-flex flex-column gap-3">
+                            <li class="d-flex align-items-center gap-3"><i
+                                    class="fa-solid fa-circle-check text-primary-green fs-5"></i> <span
+                                    class="text-light opacity-90 fw-medium">Telegram Bot Uploads</span></li>
+                            <li class="d-flex align-items-center gap-3"><i
+                                    class="fa-solid fa-circle-check text-primary-green fs-5"></i> <span
+                                    class="text-light opacity-90 fw-medium">Unlimited Storage</span></li>
+                            <li class="d-flex align-items-center gap-3"><i
+                                    class="fa-solid fa-circle-check text-primary-green fs-5"></i> <span
+                                    class="text-light opacity-90 fw-medium">Realtime View Count</span></li>
+                            <li class="d-flex align-items-center gap-3"><i
+                                    class="fa-solid fa-circle-check text-primary-green fs-5"></i> <span
+                                    class="text-light opacity-90 fw-medium">Fast Processing</span></li>
+                            <li class="d-flex align-items-center gap-3"><i
+                                    class="fa-solid fa-circle-check text-primary-green fs-5"></i> <span
+                                    class="text-light opacity-90 fw-medium">Admin Approvals</span></li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- For Viewers -->
+                <div class="col-md-6">
+                    <div
+                        class="bg-dark bg-opacity-50 rounded-4 p-4 p-md-5 border border-secondary border-opacity-25 h-100">
+                        <p class="text-white fw-bold text-uppercase small mb-2"><i
+                                class="fa-solid fa-mobile-screen me-2"></i> For Viewers</p>
+                        <h3 class="fw-bold mb-3">Consumers</h3>
+                        <p class="text-light opacity-75 mb-4">Watch, discover, and enjoy content seamlessly.</p>
+
+                        <ul class="list-unstyled mb-0 d-flex flex-column gap-3">
+                            <li class="d-flex align-items-center gap-3"><i
+                                    class="fa-solid fa-circle-check text-primary-green fs-5"></i> <span
+                                    class="text-light opacity-90 fw-medium">Fast Video Streaming</span></li>
+                            <li class="d-flex align-items-center gap-3"><i
+                                    class="fa-solid fa-circle-check text-primary-green fs-5"></i> <span
+                                    class="text-light opacity-90 fw-medium">No SignUp Required</span></li>
+                            <li class="d-flex align-items-center gap-3"><i
+                                    class="fa-solid fa-circle-check text-primary-green fs-5"></i> <span
+                                    class="text-light opacity-90 fw-medium">Advanced Video Player</span></li>
+                            <li class="d-flex align-items-center gap-3"><i
+                                    class="fa-solid fa-circle-check text-primary-green fs-5"></i> <span
+                                    class="text-light opacity-90 fw-medium">Direct Link to App</span></li>
+                            <li class="d-flex align-items-center gap-3"><i
+                                    class="fa-solid fa-circle-check text-primary-green fs-5"></i> <span
+                                    class="text-light opacity-90 fw-medium">Minimal Ads</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="py-5">
+        <div class="container py-5">
+            <div class="text-center mb-5">
+                <h2 class="display-6 fw-bold mb-3">Frequently Asked Questions</h2>
+                <p class="text-muted mx-auto" style="max-width: 600px;">Got questions? We've got answers. If you have
+                    some other questions, feel free to contact us.</p>
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="accordion custom-accordion" id="faqAccordion">
+                        <div
+                            class="accordion-item bg-dark border-secondary border-opacity-25 mb-3 rounded-3 overflow-hidden">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button bg-transparent text-white fw-semibold shadow-none"
+                                    type="button" data-bs-toggle="collapse" data-bs-target="#faq1" aria-expanded="true">
+                                    How do I upload videos using Telegram?
+                                </button>
+                            </h2>
+                            <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body text-light opacity-75">
+                                    Simply start a chat with our official Tubebox Telegram Bot, send your video file or
+                                    forward it from another chat, and the bot will provide you with a direct streaming
+                                    link instantly.
+                                </div>
+                            </div>
+                        </div>
+                        <div
+                            class="accordion-item bg-dark border-secondary border-opacity-25 mb-3 rounded-3 overflow-hidden">
+                            <h2 class="accordion-header">
+                                <button
+                                    class="accordion-button collapsed bg-transparent text-white fw-semibold shadow-none"
+                                    type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                                    Do viewers need an account to watch?
+                                </button>
+                            </h2>
+                            <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body text-light opacity-75">
+                                    No, viewers can watch videos directly without needing to sign up or log in. We
+                                    believe in providing a seamless viewing experience with zero friction.
+                                </div>
+                            </div>
+                        </div>
+                        <div
+                            class="accordion-item bg-dark border-secondary border-opacity-25 mb-3 rounded-3 overflow-hidden">
+                            <h2 class="accordion-header">
+                                <button
+                                    class="accordion-button collapsed bg-transparent text-white fw-semibold shadow-none"
+                                    type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                                    What does the 1 Admin Control feature mean?
+                                </button>
+                            </h2>
+                            <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body text-light opacity-75">
+                                    It means the entire platform is managed centrally by a single admin interface. The
+                                    admin can approve uploads, moderate content, view analytics, and manage users,
+                                    keeping the platform clean and organized.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </section>\
+
+     <!-- Admin Section -->
+    <section class="py-5">
+        <div class="container py-5">
+            <div
+                class="row align-items-center bg-dark bg-opacity-50 rounded-5 p-4 p-md-5 border border-white border-opacity-10 position-relative overflow-hidden">
+                <div class="position-absolute top-0 end-0 w-50 h-100 bg-gradient-admin opacity-25"></div>
+
+                <div class="col-lg-6 position-relative z-1 mb-4 mb-lg-0">
+                    <div class="badge badge-custom rounded-pill px-3 py-2 mb-3">Admin Dashboard</div>
+                    <h2 class="display-5 fw-bold mb-4">Ultimate <span class="text-highlight">1 Admin Control</span></h2>
+                    <p class="text-light opacity-75 fs-5 mb-4">Take full charge of your platform. A single, powerful
+                        interface to manage users, moderate content, and oversee the entire ecosystem.</p>
+
+                    <div class="d-flex flex-column gap-3">
+                        <div
+                            class="d-flex align-items-center gap-3 bg-black bg-opacity-25 p-3 rounded-4 border border-white border-opacity-10">
+                            <div class="bg-primary-green bg-opacity-25 p-2 rounded-3 text-highlight">
+                                <i class="fa-solid fa-list-check fa-fw"></i>
+                            </div>
+                            <div>
+                                <h6 class="fw-bold mb-1">Content Moderation</h6>
+                                <p class="text-muted small mb-0">Approve or reject Telegram uploads with one click.</p>
+                            </div>
+                        </div>
+                        <div
+                            class="d-flex align-items-center gap-3 bg-black bg-opacity-25 p-3 rounded-4 border border-white border-opacity-10">
+                            <div class="bg-primary-green bg-opacity-25 p-2 rounded-3 text-highlight">
+                                <i class="fa-solid fa-users fa-fw"></i>
+                            </div>
+                            <div>
+                                <h6 class="fw-bold mb-1">User Management</h6>
+                                <p class="text-muted small mb-0">Control access, ban users, and manage permissions.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a href="/login" class="btn btn-outline-light mt-4 rounded-pill px-4">Access Admin Panel <i
+                            class="fa-solid fa-arrow-right ms-2"></i></a>
+                </div>
+
+                <div class="col-lg-6 position-relative z-1 text-center">
+                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80"
+                        alt="Admin Dashboard"
+                        class="img-fluid rounded-4 shadow-lg border border-white border-opacity-10 opacity-75"
+                        style="transform: perspective(1000px) rotateY(-10deg) rotateX(5deg);">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="pt-5 bg-black border-top border-secondary border-opacity-25 mt-auto">
+        <div class="container pt-4 pb-5">
+            <div class="row g-5">
+                <!-- Col 1: Brand & Socials -->
+                <div class="col-lg-4 col-md-6">
+                    <a class="text-decoration-none fw-bold text-white fs-4 d-flex align-items-center gap-2 mb-3"
+                        href="#">
+                        <i class="fa-solid fa-play text-highlight"></i>
+                        <span>Tube<span class="text-highlight">box</span></span>
+                    </a>
+                    <p class="text-light opacity-75 mb-4 pe-lg-4">
+                        Upload, share, and watch your favorite videos with unlimited storage. Built for creators and
+                        consumers.
+                    </p>
+                    <div class="d-flex gap-3">
+                        <a href="#"
+                            class="social-btn d-flex align-items-center justify-content-center rounded-circle bg-dark border border-secondary border-opacity-50 text-white transition-all text-decoration-none"
+                            style="width: 40px; height: 40px;">
+                            <i class="fa-brands fa-youtube"></i>
+                        </a>
+                        <a href="#"
+                            class="social-btn d-flex align-items-center justify-content-center rounded-circle bg-dark border border-secondary border-opacity-50 text-white transition-all text-decoration-none"
+                            style="width: 40px; height: 40px;">
+                            <i class="fa-brands fa-telegram"></i>
+                        </a>
+                        <a href="#"
+                            class="social-btn d-flex align-items-center justify-content-center rounded-circle bg-dark border border-secondary border-opacity-50 text-white transition-all text-decoration-none"
+                            style="width: 40px; height: 40px;">
+                            <i class="fa-brands fa-discord"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Col 2: Platform -->
+                <div class="col-lg-2 col-md-6">
+                    <h6 class="text-uppercase fw-bold text-muted mb-4 tracking-wider small">Platform</h6>
+                    <ul class="list-unstyled d-flex flex-column gap-3 mb-0">
+                        <li><a href="/login"
+                                class="text-light opacity-75 text-decoration-none hover-white transition-all">Dashboard</a>
+                        </li>
+                        <li><a href="/app"
+                                class="text-light opacity-75 text-decoration-none hover-white transition-all">Download
+                                App</a></li>
+                        <li><a href="/trending"
+                                class="text-light opacity-75 text-decoration-none hover-white transition-all">Trending</a>
+                        </li>
+                        <li><a href="/login"
+                                class="text-light opacity-75 text-decoration-none hover-white transition-all">Admin
+                                Login</a></li>
+                    </ul>
+                </div>
+
+                <!-- Col 3: Resources -->
+                <div class="col-lg-2 col-md-6">
+                    <h6 class="text-uppercase fw-bold text-muted mb-4 tracking-wider small">Resources</h6>
+                    <ul class="list-unstyled d-flex flex-column gap-3 mb-0">
+                        <li><a href="#"
+                                class="text-light opacity-75 text-decoration-none hover-white transition-all">Features</a>
+                        </li>
+                        <li><a href="#"
+                                class="text-light opacity-75 text-decoration-none hover-white transition-all">How it
+                                Works</a></li>
+                        <li><a href="#"
+                                class="text-light opacity-75 text-decoration-none hover-white transition-all">FAQ</a>
+                        </li>
+                        <li><a href="/contact"
+                                class="text-light opacity-75 text-decoration-none hover-white transition-all">Contact
+                                Us</a></li>
+                    </ul>
+                </div>
+
+                <!-- Col 4: Get The App -->
+                <div class="col-lg-4 col-md-6">
+                    <h6 class="text-uppercase fw-bold text-muted mb-4 tracking-wider small">Get The App</h6>
+                    <div class="d-flex flex-column gap-3 mb-4">
+                        <a href="#"
+                            class="app-btn bg-black border border-secondary border-opacity-50 rounded-3 px-3 py-2 text-decoration-none text-white d-inline-flex align-items-center gap-3 transition-all"
+                            style="width: fit-content; min-width: 180px;">
+                            <i class="fa-brands fa-google-play fs-3"></i>
+                            <div class="text-start">
+                                <div class="text-muted" style="font-size: 0.65rem;">GET IT ON</div>
+                                <div class="fw-semibold lh-1" style="font-size: 0.95rem;">Google Play</div>
+                            </div>
+                        </a>
+                        <a href="#"
+                            class="app-btn bg-black border border-secondary border-opacity-50 rounded-3 px-3 py-2 text-decoration-none text-white d-inline-flex align-items-center gap-3 transition-all"
+                            style="width: fit-content; min-width: 180px;">
+                            <i class="fa-brands fa-apple fs-3"></i>
+                            <div class="text-start">
+                                <div class="text-muted" style="font-size: 0.65rem;">Download on the</div>
+                                <div class="fw-semibold lh-1" style="font-size: 0.95rem;">App Store</div>
+                            </div>
+                        </a>
+                    </div>
+                    <p class="text-muted small mb-0 text-uppercase">TUBEBOX LLC<br>123 Streaming Blvd, Suite 100<br>Web
+                        City, WC 12345</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Bar -->
+        <div class="border-top border-secondary border-opacity-25 py-4">
+            <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center gap-3">
+                <p class="text-muted small mb-0">&copy; 2026 TUBEBOX LLC. All rights reserved.</p>
+                <div class="d-flex gap-3 small">
+                    <a href="#" class="text-muted text-decoration-none hover-white transition-all">Privacy Policy</a>
+                    <span class="text-muted">•</span>
+                    <a href="#" class="text-muted text-decoration-none hover-white transition-all">Terms of Service</a>
+                    <span class="text-muted">•</span>
+                    <a href="#" class="text-muted text-decoration-none hover-white transition-all">DMCA</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h3>Upload Video</h3>
+
+<form method="POST" enctype="multipart/form-data">
+<div class="row mt-4">
+
+    <!-- LEFT: Upload -->
+    <div class="col-md-6 border p-3">
+        <h5>Select Video</h5>
+        <input type="file" name="video" class="form-control mt-3" required>
+    </div>
+
+    <!-- RIGHT: Details -->
+    <div class="col-md-6 border p-3">
+        <h5>Video Details</h5>
+
+        <label>Title</label>
+        <input type="text" name="title" class="form-control mb-3" required>
+
+        <label>Description</label>
+        <textarea name="description" class="form-control mb-3"></textarea>
+
+        <button class="btn btn-primary w-100">Upload</button>
+    </div>
+
+</div>
+</form>
+{% endblock %}
