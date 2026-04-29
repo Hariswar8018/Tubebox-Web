@@ -1,16 +1,14 @@
-from flask import Flask, render_template
 
-app = Flask(__name__)
 
-@app.route("/")
-def home():
-    return render_template("index.html")
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for,session,flash
 import os
+import requests
 
 app = Flask(__name__)
 
 UPLOAD_FOLDER = 'static/uploads'
+app.secret_key = "pASSWORD11212121"
+
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 videos = []  # temporary storage
@@ -21,28 +19,79 @@ def home():
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload():
+
+    if 'token' not in session:
+        return redirect('/login')
+
     if request.method == 'POST':
-        file = request.files['video']
-        title = request.form['title']
-        desc = request.form['description']
 
-        if file:
-            filepath = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
-            file.save(filepath)
+        title = request.form.get('title')
+        description = request.form.get('description')
+        video = request.files.get('video')
 
-            videos.append({
-                'title': title,
-                'description': desc,
-                'file': file.filename
-            })
+        if not title or not video:
+            flash("Title and video required")
+            return redirect('/upload')
 
-        return redirect(url_for('videos_page'))
+        api_url = "https://tubeboxservers-production.up.railway.app/api/admin/videos"
 
-    return render_template('upload.html')
+        headers = {
+            "Authorization": f"Bearer {session['token']}"
+        }
+
+        files = {
+            "video": (video.filename, video.stream, video.mimetype)
+        }
+
+        data = {
+            "title": title,
+            "description": description
+        }
+
+        response = requests.post(
+            api_url,
+            headers=headers,
+            files=files,
+            data=data
+        )
+        print(response.status_code)
+        print(response.text)
+
+        if response.status_code == 201:
+            flash("Video uploaded successfully!")
+            return redirect('/upload')
+        else:
+            try:
+                flash(response.json().get("error", response.text))
+            except:
+                flash(response.text)
+
+    return render_template("upload.html")
 
 @app.route('/videos')
 def videos_page():
-    return render_template('videos.html', videos=videos)
+
+    api_url = "https://tubeboxservers-production.up.railway.app/api/admin/videos"
+    headers = {"Authorization": f"Bearer {session['token']}"}
+    try:
+        response = requests.get(api_url, timeout=20, headers=headers)
+        print(response)
+        if response.status_code == 200:
+            result = response.json()
+
+            
+            videos = result
+
+        else:
+            videos = []
+            flash("Could not load videos.")
+
+    except Exception as e:
+        print("Videos Error:", e)
+        videos = []
+        flash("Server connection failed.")
+
+    return render_template("videos.html", videos=videos)
 
 @app.route('/telegram')
 def telegram():
@@ -64,14 +113,49 @@ def terms():
 def why():
     return render_template('why.html')
 
+@app.route('/ads')
+def ads():
+    return render_template('ads.html')
+
+@app.route('/analytics')
+def analytics():
+    return render_template('analytics.html')
 @app.route('/app')
 def download():
     return redirect("https://play.google.com/store/apps/details?id=com.tube.box.entertainment.app&hl=en_IN")
 
 @app.route('/login', methods=['POST','GET'])
 def login():
+    if request.method == 'POST':
+
+        username = request.form['username']
+        password = request.form['password']
+
+        api_url = "https://tubeboxservers-production.up.railway.app/api/admin/login"
+
+        payload = {
+            "username": username,
+            "password": password
+        }
+
+        response = requests.post(api_url, json=payload)
+
+        if response.status_code == 200:
+
+            data = response.json()
+
+            # Save everything in session
+            session['token'] = data['token']
+            session['admin_id'] = data['admin']['id']
+            session['admin_username'] = data['admin']['username']
+
+            return redirect('/upload')
+
+        else:
+            flash("Invalid username or password")
+
     return render_template("login.html")
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
+    app.run(debug=True,host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
 

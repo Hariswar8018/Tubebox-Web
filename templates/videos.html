@@ -1,22 +1,331 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h3>All Videos</h3>
+<style>
+#searchInput::placeholder{
+    color:#ffffff !important;
+    opacity:1;
+}
 
-<div class="row">
-    {% for video in videos %}
-    <div class="col-md-4 mt-3">
-        <div class="card">
-            <video controls width="100%">
-                <source src="{{ url_for('static', filename='uploads/' + video.file) }}">
-            </video>
-            <div class="card-body">
-                <h5>{{ video.title }}</h5>
-                <p>{{ video.description }}</p>
-            </div>
-        </div>
+#searchInput::-webkit-input-placeholder{
+    color:#ffffff !important;
+}
+
+#searchInput::-moz-placeholder{
+    color:#ffffff !important;
+}
+
+#searchInput:-ms-input-placeholder{
+    color:#ffffff !important;
+}
+</style>
+<section class="py-4">
+    <div class="container-fluid px-4">
+
+
+        <!-- Search -->
+        <div class="custom-nav-container p-3 mb-4" style="border-radius:14px;">
+    <div class="input-group">
+
+        <span class="input-group-text bg-transparent border-0 text-white">
+            <i class="fa-solid fa-magnifying-glass text-white"></i>
+        </span>
+
+        <input
+            type="text"
+            class="form-control bg-transparent border-0 text-white shadow-none"
+            placeholder="Search videos..."
+            id="searchInput"
+        >
+
+        <button class="btn btn-primary-green px-4" type="button" id="searchBtn">
+            Search
+        </button>
+
     </div>
-    {% endfor %}
 </div>
+
+        <!-- Main Layout -->
+        <div class="row g-4">
+
+            <!-- LEFT SIDE OLD HTML (70%) -->
+            <div class="col-lg-8">
+
+                <div class="row g-3" id="videoList">
+
+                    {% for video in videos %}
+                    <div class="col-12 video-item" data-title="{{ video.title|lower }}"
+                        data-description="{{ video.description|lower if video.description else '' }}">
+
+                        <div class="custom-nav-container p-2 video-row" style="border-radius:14px; cursor:pointer;"
+                            onclick="loadVideo(
+            '{{ video.id }}',
+            `{{ video.title|escape }}`,
+            `{{ video.description|escape if video.description else 'No description available.' }}`,
+            '{{ video.video_url if video.video_url else '' }}',
+            '{{ video.thumbnail_url if video.thumbnail_url else '' }}',
+            '{{ video.views or 0 }}',
+            '{{ video.likes or 0 }}',
+            '{{ video.downloads or 0 }}'
+         )">
+
+                            <div class="row align-items-center gx-3 gy-2">
+
+                                <!-- Thumbnail -->
+                                <div class="col-md-3">
+                                    {% if video.thumbnail_url %}
+                                    <img src="{{ video.thumbnail_url }}" class="w-100 rounded-3"
+                                        style="height:95px; object-fit:cover;">
+                                    {% else %}
+                                    <img src="https://placehold.co/500x300/041408/1f9c40?text=TubeBox"
+                                        class="w-100 rounded-3" style="height:95px; object-fit:cover;">
+                                    {% endif %}
+                                </div>
+
+
+                                <!-- Info -->
+                                <div class="col-md-7">
+
+                                    <h6 class="fw-bold mb-1">{{ video.title }}</h6>
+
+                                    <p class="text-white-50 small mb-1"
+                                        style="font-size:13px; line-height:1.25; max-height:34px; overflow:hidden;">
+                                        {{ video.description[:90] ~ '...' if video.description else 'No description
+                                        available.' }}
+                                    </p>
+
+
+                                    <div class="d-flex gap-3 small text-white-50 mb-2" style="font-size:12px;">
+                                        <span><i class="fa-solid fa-eye me-1 text-highlight"></i>{{ video.views or 0
+                                            }} Views</span>
+                                        <span><i class="fa-solid fa-heart me-1 text-danger"></i>{{ video.likes or 0
+                                            }} Likes </span>
+                                        <span><i class="fa-solid fa-download me-1 text-primary-green"></i>{{
+                                            video.downloads or 0 }} Downloads </span>
+                                    </div>
+
+                                    <!-- Copy Box -->
+                                    <div class="custom-nav-container px-2 py-1 d-flex justify-content-between align-items-center"
+                                        style="border-radius:10px; cursor:pointer;"
+                                        onclick="event.stopPropagation(); copyTubeBox('{{ video.id }}', this)">
+
+                                        <div class="small text-white-50 text-truncate pe-2" style="font-size:12px;">
+                                            https://tubebox.in/{{ video.id }}
+                                        </div>
+
+                                        <span class="badge bg-success px-2 py-1" style="font-size:11px;">
+                                            Copy
+                                        </span>
+                                    </div>
+
+                                </div>
+
+                                <!-- Button -->
+                                <div class="col-md-2 text-md-end">
+                                    <button class="btn btn-primary-green btn-sm px-3">
+                                        Open
+                                    </button>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                    {% endfor %}
+
+                </div>
+
+            </div>
+
+            <!-- RIGHT SIDE DETAILS PANEL (30%) -->
+            <div class="col-lg-4">
+
+                <div class="custom-nav-container p-3 sticky-top" style="border-radius:16px; top:20px; min-height:80vh;">
+
+                    <div id="emptyState" class="text-center pt-5">
+                        <i class="fa-solid fa-circle-play fa-3x text-white-50 mb-3"></i>
+                        <h5>Select Any Video</h5>
+                        <p class="text-white-50 small">
+                            Click any video from left side to view full details here.
+                        </p>
+                    </div>
+
+                    <div id="videoDetails" style="display:none;">
+
+                        <!-- Video Top -->
+                        <video controls class="w-100 rounded-3 mb-3" id="detailVideo" style="max-height:260px;">
+                            <source id="detailSource" src="">
+                        </video>
+
+                        <img id="detailThumb" class="w-100 rounded-3 mb-3"
+                            style="display:none; max-height:260px; object-fit:cover;">
+
+                        <!-- Title -->
+                        <h4 class="fw-bold mb-2" id="detailTitle"></h4>
+
+                        <!-- Description -->
+                        <p class="text-white-50 small mb-4" id="detailDesc"></p>
+
+                        <!-- Stats -->
+                        <div class="row g-2">
+
+                            <div class="col-4">
+                                <div class="custom-nav-container p-2 text-center rounded-3">
+                                    <h6 class="mb-1 text-highlight" id="detailViews">0</h6>
+                                    <small class="text-white-50">Views</small>
+                                </div>
+                            </div>
+
+                            <div class="col-4">
+                                <div class="custom-nav-container p-2 text-center rounded-3">
+                                    <h6 class="mb-1 text-danger" id="detailLikes">0</h6>
+                                    <small class="text-white-50">Likes</small>
+                                </div>
+                            </div>
+
+                            <div class="col-4">
+                                <div class="custom-nav-container p-2 text-center rounded-3">
+                                    <h6 class="mb-1 text-primary-green" id="detailDownloads">0</h6>
+                                    <small class="text-white-50">Downloads</small>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- Buttons -->
+                        <div class="d-grid gap-2 mt-4">
+
+                            <!-- Copy Video Link -->
+                            <a href="javascript:void(0)" class="btn btn-primary-green" id="editBtn">
+                                <i class="fa-solid fa-copy me-2"></i>Copy Video Link
+                            </a>
+
+                            <!-- Delete -->
+                            <a href="javascript:void(0)" class="btn btn-outline-light" id="deleteBtn">
+                                Permanent Delete Video
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+<script>
+    function copyTubeBox(videoId, el) {
+
+        let fullUrl = "https://tubebox.in/" + videoId;
+
+        navigator.clipboard.writeText(fullUrl);
+
+        let badge = el.querySelector(".badge");
+        badge.innerText = "Copied ✓";
+
+        setTimeout(() => {
+            badge.innerText = "Copy";
+        }, 1800);
+    }
+    /* LOAD VIDEO DETAILS ON RIGHT SIDE */
+    function loadVideo(id, title, desc, videoUrl, thumb, views, likes, downloads) {
+
+        document.getElementById("emptyState").style.display = "none";
+        document.getElementById("videoDetails").style.display = "block";
+
+        let video = document.getElementById("detailVideo");
+        let source = document.getElementById("detailSource");
+        let thumbImg = document.getElementById("detailThumb");
+
+        if (videoUrl && videoUrl.trim() !== "") {
+            video.style.display = "block";
+            thumbImg.style.display = "none";
+
+            source.src = videoUrl;
+            video.load();
+        } else {
+            video.style.display = "none";
+            thumbImg.style.display = "block";
+            thumbImg.src = thumb;
+        }
+
+        document.getElementById("detailTitle").innerText = title;
+        document.getElementById("detailDesc").innerText = desc;
+        document.getElementById("detailViews").innerText = views;
+        document.getElementById("detailLikes").innerText = likes;
+        document.getElementById("detailDownloads").innerText = downloads;
+        document.getElementById("editBtn").onclick = function () {
+            navigator.clipboard.writeText("https://tubebox.in/" + id);
+
+            this.innerHTML = '<i class="fa-solid fa-check me-2"></i>Copied ✓';
+
+            setTimeout(() => {
+                this.innerHTML = '<i class="fa-solid fa-copy me-2"></i>Copy Video Link';
+            }, 1500);
+        };
+
+        document.getElementById("deleteBtn").onclick = function () {
+            deleteVideo(id);
+        };
+    }
+    async function deleteVideo(id) {
+
+        if (!confirm("Delete this video permanently?")) return;
+
+        try {
+
+            const res = await fetch(
+                "https://tubeboxservers-production.up.railway.app/api/admin/videos/" + id,
+                {
+                    method: "DELETE",
+                    headers: {
+                        "Authorization": "Bearer {{ session['token'] }}"
+                    }
+                }
+            );
+
+            if (res.ok) {
+                location.reload();
+            } else {
+                alert("Delete failed");
+            }
+
+        } catch (error) {
+            alert("Server error");
+        }
+    }
+
+    /* SEARCH WORKING */
+    function searchVideos() {
+        let value = document.getElementById("searchInput").value.toLowerCase();
+        let items = document.querySelectorAll(".video-item");
+
+        items.forEach(item => {
+            let title = item.dataset.title;
+            let desc = item.dataset.description;
+
+            if (title.includes(value) || desc.includes(value)) {
+                item.style.display = "block";
+            } else {
+                item.style.display = "none";
+            }
+        });
+    }
+
+    document.getElementById("searchBtn").addEventListener("click", searchVideos);
+
+    document.getElementById("searchInput").addEventListener("keyup", function (e) {
+        searchVideos();
+
+        if (e.key === "Enter") {
+            searchVideos();
+        }
+    });
+</script>
 
 {% endblock %}

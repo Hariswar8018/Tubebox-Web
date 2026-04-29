@@ -91,15 +91,14 @@
                     <p class="text-light opacity-75 small">Enter your credentials to access the dashboard</p>
                 </div>
 
-                <form>
-                    <!-- Username Field -->
+                <form  method="POST" action="/login">
                     <div class="mb-4">
                         <label for="username" class="form-label text-light fw-medium small mb-2">Username</label>
                         <div class="input-group">
                             <span class="input-group-text input-group-text-custom px-3">
                                 <i class="fa-solid fa-user"></i>
                             </span>
-                            <input type="text" class="form-control form-control-custom form-control-with-icon shadow-none" id="username" placeholder="admin" required>
+                            <input type="text" class="form-control form-control-custom form-control-with-icon shadow-none" id="username" name="username" placeholder="admin" required>
                         </div>
                     </div>
 
@@ -113,7 +112,7 @@
                             <span class="input-group-text input-group-text-custom px-3">
                                 <i class="fa-solid fa-lock"></i>
                             </span>
-                            <input type="password" class="form-control form-control-custom form-control-with-icon shadow-none" id="password" placeholder="••••••••" required>
+                            <input type="password" class="form-control form-control-custom form-control-with-icon shadow-none" id="password" name="password" placeholder="••••••••" required>
                         </div>
                     </div>
 

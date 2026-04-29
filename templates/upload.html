@@ -1,30 +1,144 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h3>Upload Video</h3>
 
-<form method="POST" enctype="multipart/form-data">
-<div class="row mt-4">
+<section class="py-4">
+<div class="container-fluid">
 
-    <!-- LEFT: Upload -->
-    <div class="col-md-6 border p-3">
-        <h5>Select Video</h5>
-        <input type="file" name="video" class="form-control mt-3" required>
-    </div>
+    <form method="POST" enctype="multipart/form-data">
 
-    <!-- RIGHT: Details -->
-    <div class="col-md-6 border p-3">
-        <h5>Video Details</h5>
+        <div class="row g-4">
 
-        <label>Title</label>
-        <input type="text" name="title" class="form-control mb-3" required>
+            <!-- LEFT SIDE UPLOAD AREA -->
+            <div class="col-lg-7">
 
-        <label>Description</label>
-        <textarea name="description" class="form-control mb-3"></textarea>
+                <div class="card border-0 shadow-sm rounded-4 h-100 p-4">
 
-        <button class="btn btn-primary w-100">Upload</button>
-    </div>
+                    <div class="text-center mb-4">
+                        <i class="fa-solid fa-cloud-arrow-up text-success"
+                           style="font-size:70px;"></i>
+
+                        <h2 class="fw-bold mt-3 mb-1">
+                            Upload New Video
+                        </h2>
+
+                        <p class="text-muted">
+                            Select a video file and publish instantly.
+                        </p>
+                    </div>
+
+                    <!-- Upload Box -->
+                    <div class="bg-light rounded-4 p-5 text-center border">
+
+                        <i class="fa-solid fa-film text-secondary mb-3"
+                           style="font-size:50px;"></i>
+
+                        <h5 class="fw-bold mb-2">Choose Video File</h5>
+
+                        <p class="text-muted small mb-4">
+                            Supported formats: MP4, MOV, AVI, MKV
+                        </p>
+
+                        <input type="file"
+                               name="video"
+                               class="form-control form-control-lg"
+                               required>
+
+                    </div>
+
+                    <!-- Steps -->
+                    <div class="row text-center mt-4 g-3">
+
+                        <div class="col-md-4">
+                            <div class="bg-light rounded-4 p-3">
+                                <i class="fa-solid fa-file-video text-primary mb-2"></i>
+                                <div class="small fw-bold">Choose File</div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="bg-light rounded-4 p-3">
+                                <i class="fa-solid fa-pen text-warning mb-2"></i>
+                                <div class="small fw-bold">Add Details</div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="bg-light rounded-4 p-3">
+                                <i class="fa-solid fa-check text-success mb-2"></i>
+                                <div class="small fw-bold">Publish</div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- RIGHT SIDE DETAILS -->
+            <div class="col-lg-5">
+
+                <div class="card border-0 shadow-sm rounded-4 h-100 p-4">
+
+                    <div class="text-center mb-4">
+                        <i class="fa-solid fa-circle-info text-primary"
+                           style="font-size:60px;"></i>
+
+                        <h4 class="fw-bold mt-3 mb-1">Video Details</h4>
+
+                        <p class="text-muted small">
+                            Fill required information before upload.
+                        </p>
+                    </div>
+
+                    <!-- Title -->
+                    <label class="fw-semibold mb-2">Video Title</label>
+                    <input type="text"
+                           name="title"
+                           class="form-control form-control-lg mb-4"
+                           placeholder="Enter video title"
+                           required>
+
+                    <!-- Description -->
+                    <label class="fw-semibold mb-2">Description</label>
+                    <textarea name="description"
+                              rows="6"
+                              class="form-control mb-4"
+                              placeholder="Write short description..."></textarea>
+
+                    <!-- Flash Messages -->
+                    {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                    {% for message in messages %}
+                    <div class="alert alert-info rounded-4">
+                        {{ message }}
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+                    {% endwith %}
+
+                    <!-- Upload Button -->
+                    <div class="d-grid mt-2">
+                        <button class="btn btn-success btn-lg rounded-4">
+                            <i class="fa-solid fa-cloud-arrow-up me-2"></i>
+                            Upload Video
+                        </button>
+                    </div>
+
+                    <div class="alert alert-light mt-4 mb-0 small">
+                        Uploaded videos will appear in your dashboard automatically.
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </form>
 
 </div>
-</form>
+</section>
+
 {% endblock %}

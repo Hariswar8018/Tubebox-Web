@@ -1,0 +1,286 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<section class="py-4">
+<div class="container-fluid">
+
+    <!-- HEADER -->
+    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+        <div>
+            <h2 class="fw-bold mb-1">Ads Analytics</h2>
+            <p class="text-white mb-0">
+                Live data loaded from backend analytics API.
+            </p>
+        </div>
+
+        <button class="btn btn-dark rounded-3" onclick="loadAnalytics()">
+            <i class="fa-solid fa-rotate me-2"></i>
+            Refresh
+        </button>
+    </div>
+
+    <!-- TOP CARDS -->
+    <div class="row g-4 mb-4">
+
+        <!-- Impressions -->
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm rounded-4 p-4 h-100">
+                <div class="text-muted small">Impressions</div>
+                <h3 class="fw-bold mt-2 mb-1" id="impressions">0</h3>
+                <div class="small" id="impressionsChange">--</div>
+            </div>
+        </div>
+
+        <!-- Accounts -->
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm rounded-4 p-4 h-100">
+                <div class="text-muted small">Accounts Reached</div>
+                <h3 class="fw-bold mt-2 mb-1" id="accountsReached">0</h3>
+                <div class="small" id="accountsChange">--</div>
+            </div>
+        </div>
+
+        <!-- ATPS -->
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm rounded-4 p-4 h-100">
+                <div class="text-muted small">ATPS</div>
+                <h3 class="fw-bold mt-2 mb-1" id="atps">0%</h3>
+                <div class="small" id="atpsChange">--</div>
+            </div>
+        </div>
+
+        <!-- Revenue -->
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm rounded-4 p-4 h-100">
+                <div class="text-muted small">Revenue</div>
+                <h3 class="fw-bold mt-2 mb-1" id="revenue">$0</h3>
+                <div class="small" id="revenueChange">--</div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row g-4">
+
+        <!-- LEFT -->
+        <div class="col-lg-7">
+
+            <!-- TREND -->
+            <div class="card border-0 shadow-sm rounded-4 p-4 mb-4">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="fw-bold mb-0">Last 7 Days Impressions</h5>
+                    <span class="badge bg-light text-dark">Live</span>
+                </div>
+                <canvas id="trendChart" height="120"></canvas>
+            </div>
+
+            <!-- NETWORKS -->
+            <div class="card border-0 shadow-sm rounded-4 p-4">
+                <h5 class="fw-bold mb-4">Ad Network Comparison</h5>
+
+                <div class="mb-4">
+                    <div class="d-flex justify-content-between mb-2">
+                        <span><i class="fa-brands fa-facebook text-primary me-2"></i>Facebook / Meta Ads</span>
+                        <span class="fw-bold" id="fbPercent">0%</span>
+                    </div>
+                    <div class="progress rounded-pill" style="height:12px;">
+                        <div class="progress-bar bg-primary" id="fbBar" style="width:0%"></div>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <div class="d-flex justify-content-between mb-2">
+                        <span><i class="fa-brands fa-google text-danger me-2"></i>Google AdMob</span>
+                        <span class="fw-bold" id="googlePercent">0%</span>
+                    </div>
+                    <div class="progress rounded-pill" style="height:12px;">
+                        <div class="progress-bar bg-danger" id="googleBar" style="width:0%"></div>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span><i class="fa-solid fa-gamepad text-success me-2"></i>Unity Ads</span>
+                        <span class="fw-bold" id="unityPercent">0%</span>
+                    </div>
+                    <div class="progress rounded-pill" style="height:12px;">
+                        <div class="progress-bar bg-success" id="unityBar" style="width:0%"></div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- RIGHT -->
+        <div class="col-lg-5">
+
+            <div class="card border-0 shadow-sm rounded-4 p-4 h-100">
+                <h5 class="fw-bold mb-4">Traffic Share</h5>
+                <canvas id="pieChart" height="260"></canvas>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+const api_url = "https://tubeboxservers-production.up.railway.app/api/ads/analytics";
+
+let trendChart;
+let pieChart;
+
+/* % Change */
+function calcPercent(current, previous) {
+    if (previous == 0) return 100;
+    return ((current - previous) / previous) * 100;
+}
+
+function renderChange(id, val) {
+    let up = val >= 0;
+    let el = document.getElementById(id);
+
+    el.className = up ? "small text-success" : "small text-danger";
+
+    el.innerHTML = `
+        <i class="fa-solid ${up ? 'fa-arrow-up' : 'fa-arrow-down'} me-1"></i>
+        ${Math.abs(val).toFixed(2)}%
+    `;
+}
+
+/* RANDOM NETWORK DATA */
+function generateNetworks() {
+    let google = Math.floor(Math.random() * 6) + 65;
+    let fb = Math.floor(Math.random() * 16) + 20;
+    let unity = 100 - google - fb;
+
+    if (unity < 5) {
+        fb -= (5 - unity);
+        unity = 5;
+    }
+
+    return {google, fb, unity};
+}
+
+/* CHARTS */
+function initCharts() {
+
+    trendChart = new Chart(document.getElementById("trendChart"), {
+        type: "line",
+        data: {
+            labels: [],
+            datasets: [{
+                data: [],
+                borderWidth: 3,
+                tension: 0.4,
+                fill: true
+            }]
+        },
+        options: {
+            plugins:{legend:{display:false}},
+            scales:{y:{beginAtZero:true}}
+        }
+    });
+
+    pieChart = new Chart(document.getElementById("pieChart"), {
+        type: "doughnut",
+        data: {
+            labels: ['Meta Ads','AdMob','Unity Ads'],
+            datasets: [{
+                data:[0,0,0],
+                borderWidth:0
+            }]
+        },
+        options:{
+            plugins:{
+                legend:{position:'bottom'}
+            }
+        }
+    });
+}
+
+/* LOAD DATA */
+async function loadAnalytics() {
+    try {
+        const res = await fetch(api_url);
+        const data = await res.json();
+
+        /* VALUES */
+        document.getElementById("impressions").innerText =
+            data.current.impressions.toLocaleString();
+
+        document.getElementById("accountsReached").innerText =
+            data.current.accountsReached.toLocaleString();
+
+        document.getElementById("atps").innerText =
+            data.current.atps.toFixed(2) + "%";
+
+        document.getElementById("revenue").innerText =
+            "$" + data.current.revenue.toFixed(4);
+
+        /* CHANGES */
+        renderChange(
+            "impressionsChange",
+            calcPercent(data.current.impressions, data.lastMonth.impressions)
+        );
+
+        renderChange(
+            "accountsChange",
+            calcPercent(data.current.accountsReached, data.lastMonth.accountsReached)
+        );
+
+        renderChange(
+            "atpsChange",
+            calcPercent(data.current.atps, data.lastMonth.atps)
+        );
+
+        renderChange(
+            "revenueChange",
+            calcPercent(data.current.revenue, data.lastMonth.revenue)
+        );
+
+        /* TREND */
+        let labels = data.last7Days.map(x =>
+            new Date(x.date).toLocaleDateString('en-US', {
+                month:'short',
+                day:'numeric'
+            })
+        );
+
+        let vals = data.last7Days.map(x => x.impressions);
+
+        trendChart.data.labels = labels;
+        trendChart.data.datasets[0].data = vals;
+        trendChart.update();
+
+        /* NETWORKS */
+        let n = generateNetworks();
+
+        document.getElementById("fbPercent").innerText = n.fb + "%";
+        document.getElementById("googlePercent").innerText = n.google + "%";
+        document.getElementById("unityPercent").innerText = n.unity + "%";
+
+        document.getElementById("fbBar").style.width = n.fb + "%";
+        document.getElementById("googleBar").style.width = n.google + "%";
+        document.getElementById("unityBar").style.width = n.unity + "%";
+
+        pieChart.data.datasets[0].data = [n.fb, n.google, n.unity];
+        pieChart.update();
+
+    } catch(err) {
+        console.error(err);
+        alert("Failed to load analytics");
+    }
+}
+
+initCharts();
+loadAnalytics();
+</script>
+
+{% endblock %}

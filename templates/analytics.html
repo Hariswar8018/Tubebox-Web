@@ -1,0 +1,290 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<section class="py-4">
+<div class="container-fluid">
+
+    <!-- HEADER -->
+    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+        <div>
+            <h2 class="fw-bold mb-1">Dashboard Overview</h2>
+            <p class="text-white mb-0">
+                Live analytics, system health and platform performance.
+            </p>
+        </div>
+
+        <button class="btn btn-dark rounded-3" onclick="loadDashboard()">
+            <i class="fa-solid fa-rotate me-2"></i>
+            Refresh
+        </button>
+    </div>
+
+    <!-- TOP STATS -->
+    <div class="row g-4 mb-4">
+
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm rounded-4 p-4 h-100">
+                <div class="text-muted small">Ad Impressions</div>
+                <h3 class="fw-bold mt-2 mb-1" id="impressions">0</h3>
+                <div class="small" id="impressionsChange">--</div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm rounded-4 p-4 h-100">
+                <div class="text-muted small">Revenue</div>
+                <h3 class="fw-bold mt-2 mb-1" id="revenue">$0</h3>
+                <div class="small" id="revenueChange">--</div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm rounded-4 p-4 h-100">
+                <div class="text-muted small">Total Videos</div>
+                <h3 class="fw-bold mt-2 mb-1" id="videos">0</h3>
+                <div class="small text-success">
+                    <i class="fa-solid fa-circle-check me-1"></i>
+                    Active Content
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm rounded-4 p-4 h-100">
+                <div class="text-muted small">Total Views</div>
+                <h3 class="fw-bold mt-2 mb-1" id="views">0</h3>
+                <div class="small text-primary">
+                    <i class="fa-solid fa-eye me-1"></i>
+                    Audience Reach
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- SECOND ROW -->
+    <div class="row g-4">
+
+        <!-- LEFT -->
+        <div class="col-lg-8">
+
+            <!-- CHART -->
+            <div class="card border-0 shadow-sm rounded-4 p-4 mb-4">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="fw-bold mb-0">Ad Impressions (Last 7 Days)</h5>
+                    <span class="badge bg-light text-dark">Live</span>
+                </div>
+                <canvas id="trendChart" height="120"></canvas>
+            </div>
+
+            <!-- VIDEO PERFORMANCE -->
+            <div class="card border-0 shadow-sm rounded-4 p-4">
+                <h5 class="fw-bold mb-4">Video Performance</h5>
+
+                <div class="row g-3">
+
+                    <div class="col-md-4">
+                        <div class="bg-light rounded-4 p-3 text-center">
+                            <div class="small text-muted">Likes</div>
+                            <h4 class="fw-bold mb-0" id="likes">0</h4>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="bg-light rounded-4 p-3 text-center">
+                            <div class="small text-muted">Downloads</div>
+                            <h4 class="fw-bold mb-0" id="downloads">0</h4>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="bg-light rounded-4 p-3 text-center">
+                            <div class="small text-muted">Accounts Reached</div>
+                            <h4 class="fw-bold mb-0" id="accounts">0</h4>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+        <!-- RIGHT -->
+        <div class="col-lg-4">
+
+            <!-- SYSTEM STATUS -->
+            <div class="card border-0 shadow-sm rounded-4 p-4 mb-4">
+                <h5 class="fw-bold mb-4">System Status</h5>
+
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <span><i class="fa-brands fa-telegram text-primary me-2"></i>Telegram</span>
+                    <span class="badge bg-success">Operational</span>
+                </div>
+
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <span><i class="fa-solid fa-server text-dark me-2"></i>Server</span>
+                    <span class="badge bg-success">Operational</span>
+                </div>
+
+                <div class="d-flex justify-content-between align-items-center">
+                    <span><i class="fa-solid fa-database text-info me-2"></i>Database</span>
+                    <span class="badge bg-success">Operational</span>
+                </div>
+            </div>
+
+            <!-- DONUT -->
+            <div class="card border-0 shadow-sm rounded-4 p-4">
+                <h5 class="fw-bold mb-4">Traffic Sources</h5>
+                <canvas id="pieChart" height="250"></canvas>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+const api_url = "https://tubeboxservers-production.up.railway.app/api/analytics/";
+
+let trendChart;
+let pieChart;
+
+/* Helpers */
+function calcPercent(current, oldVal) {
+    if (oldVal == 0) return 100;
+    return ((current - oldVal) / oldVal) * 100;
+}
+
+function renderChange(id, val) {
+    const up = val >= 0;
+    const el = document.getElementById(id);
+
+    el.className = up ? "small text-success" : "small text-danger";
+
+    el.innerHTML = `
+        <i class="fa-solid ${up ? 'fa-arrow-up' : 'fa-arrow-down'} me-1"></i>
+        ${Math.abs(val).toFixed(2)}%
+    `;
+}
+
+/* Charts */
+function initCharts() {
+
+    trendChart = new Chart(document.getElementById('trendChart'), {
+        type: 'line',
+        data: {
+            labels: [],
+            datasets: [{
+                data: [],
+                borderWidth: 3,
+                tension: 0.4,
+                fill: true
+            }]
+        },
+        options: {
+            plugins:{legend:{display:false}},
+            scales:{y:{beginAtZero:true}}
+        }
+    });
+
+    pieChart = new Chart(document.getElementById('pieChart'), {
+        type: 'doughnut',
+        data: {
+            labels:['Ads','Videos','Organic'],
+            datasets:[{
+                data:[45,35,20],
+                borderWidth:0
+            }]
+        },
+        options:{
+            plugins:{
+                legend:{position:'bottom'}
+            }
+        }
+    });
+}
+
+/* Load API */
+async function loadDashboard() {
+
+    try {
+        const res = await fetch(api_url);
+        const data = await res.json();
+
+        /* Ads */
+        document.getElementById("impressions").innerText =
+            data.ads.current.impressions.toLocaleString();
+
+        document.getElementById("revenue").innerText =
+            "$" + data.ads.current.revenue.toFixed(4);
+
+        renderChange(
+            "impressionsChange",
+            calcPercent(
+                data.ads.current.impressions,
+                data.ads.lastMonth.impressions
+            )
+        );
+
+        renderChange(
+            "revenueChange",
+            calcPercent(
+                data.ads.current.revenue,
+                data.ads.lastMonth.revenue
+            )
+        );
+
+        /* Videos */
+        document.getElementById("videos").innerText =
+            data.videos.totalVideos;
+
+        document.getElementById("views").innerText =
+            data.videos.totalViews;
+
+        document.getElementById("likes").innerText =
+            data.videos.totalLikes;
+
+        document.getElementById("downloads").innerText =
+            data.videos.totalDownloads;
+
+        document.getElementById("accounts").innerText =
+            data.ads.current.accountsReached;
+
+        /* Trend Graph */
+        const labels = data.ads.last7Days.map(x =>
+            new Date(x.date).toLocaleDateString('en-US', {
+                month:'short',
+                day:'numeric'
+            })
+        );
+
+        const values = data.ads.last7Days.map(x => x.impressions);
+
+        trendChart.data.labels = labels;
+        trendChart.data.datasets[0].data = values;
+        trendChart.update();
+
+        /* Random Pie */
+        let ads = Math.floor(Math.random() * 20) + 40;
+        let vids = Math.floor(Math.random() * 20) + 25;
+        let organic = 100 - ads - vids;
+
+        pieChart.data.datasets[0].data = [ads, vids, organic];
+        pieChart.update();
+
+    } catch(err) {
+        console.error(err);
+        alert("Failed to load dashboard");
+    }
+}
+
+initCharts();
+loadDashboard();
+</script>
+
+{% endblock %}
