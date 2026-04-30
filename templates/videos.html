@@ -2,22 +2,22 @@
 
 {% block content %}
 <style>
-#searchInput::placeholder{
-    color:#ffffff !important;
-    opacity:1;
-}
+    #searchInput::placeholder {
+        color: #ffffff !important;
+        opacity: 1;
+    }
 
-#searchInput::-webkit-input-placeholder{
-    color:#ffffff !important;
-}
+    #searchInput::-webkit-input-placeholder {
+        color: #ffffff !important;
+    }
 
-#searchInput::-moz-placeholder{
-    color:#ffffff !important;
-}
+    #searchInput::-moz-placeholder {
+        color: #ffffff !important;
+    }
 
-#searchInput:-ms-input-placeholder{
-    color:#ffffff !important;
-}
+    #searchInput:-ms-input-placeholder {
+        color: #ffffff !important;
+    }
 </style>
 <section class="py-4">
     <div class="container-fluid px-4">
@@ -25,29 +25,33 @@
 
         <!-- Search -->
         <div class="custom-nav-container p-3 mb-4" style="border-radius:14px;">
-    <div class="input-group">
+            <div class="input-group">
 
-        <span class="input-group-text bg-transparent border-0 text-white">
-            <i class="fa-solid fa-magnifying-glass text-white"></i>
-        </span>
+                <span class="input-group-text bg-transparent border-0 text-white">
+                    <i class="fa-solid fa-magnifying-glass text-white"></i>
+                </span>
 
-        <input
-            type="text"
-            class="form-control bg-transparent border-0 text-white shadow-none"
-            placeholder="Search videos..."
-            id="searchInput"
-        >
+                <input type="text" class="form-control bg-transparent border-0 text-white shadow-none"
+                    placeholder="Search videos..." id="searchInput">
 
-        <button class="btn btn-primary-green px-4" type="button" id="searchBtn">
-            Search
-        </button>
+                <button class="btn btn-primary-green px-4" type="button" id="searchBtn">
+                    Search
+                </button>
 
-    </div>
-</div>
+            </div>
+        </div>
 
         <!-- Main Layout -->
         <div class="row g-4">
-
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-info rounded-4">
+                {{ message }}
+            </div>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
             <!-- LEFT SIDE OLD HTML (70%) -->
             <div class="col-lg-8">
 

@@ -3,7 +3,7 @@
 from flask import Flask, render_template, request, redirect, url_for,session,flash
 import os
 import requests
-
+import time
 app = Flask(__name__)
 
 UPLOAD_FOLDER = 'static/uploads'
@@ -68,23 +68,33 @@ def upload():
 
     return render_template("upload.html")
 
+import time
+from flask import make_response
+
 @app.route('/videos')
 def videos_page():
-    
-    api_url = "https://tubeboxservers-production.up.railway.app/api/admin/videos"
-    headers = {"Authorization": f"Bearer {session['token']}"}
+
+    # ✅ Always check session first
     if 'token' not in session:
         return redirect('/login')
 
+    api_url = f"https://tubeboxservers-production.up.railway.app/api/admin/videos?_={int(time.time())}"
+
+    headers = {
+        "Authorization": f"Bearer {session['token']}",
+        "Cache-Control": "no-cache, no-store, must-revalidate",
+        "Pragma": "no-cache",
+        "Expires": "0"
+    }
+
     try:
         response = requests.get(api_url, timeout=20, headers=headers)
-        print(response)
+
+        print("Status:", response.status_code)
+
         if response.status_code == 200:
-            result = response.json()
-
-            
-            videos = result
-
+            videos = response.json()
+            print("Data:", videos)
         else:
             videos = []
             flash("Could not load videos.")
@@ -94,7 +104,13 @@ def videos_page():
         videos = []
         flash("Server connection failed.")
 
-    return render_template("videos.html", videos=videos)
+    # ✅ Prevent browser caching
+    resp = make_response(render_template("videos.html", videos=videos))
+    resp.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, max-age=0'
+    resp.headers['Pragma'] = 'no-cache'
+    resp.headers['Expires'] = '0'
+
+    return resp
 
 @app.route('/telegram')
 def telegram():
