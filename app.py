@@ -4,14 +4,18 @@ from flask import Flask, render_template, request, redirect, url_for,session,fla
 import os
 import requests
 import time
-app = Flask(__name__)
+from werkzeug.middleware.proxy_fix import ProxyFix
 
+
+app = Flask(__name__)
+app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1, x_host=1)
+app.config['SESSION_COOKIE_SECURE'] = True
+app.config['SESSION_COOKIE_SAMESITE'] = 'None'
 UPLOAD_FOLDER = 'static/uploads'
 app.secret_key = "pASSWORD11212121"
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-videos = []  # temporary storage
 
 @app.route('/')
 def home():
@@ -86,7 +90,7 @@ def videos_page():
         print("NO TOKEN → redirecting")
         return redirect('/login')
     api_url = f"https://tubeboxservers-production.up.railway.app/api/admin/videos?_={int(time.time())}"
-
+    print("BEFORE API CALL")
     headers = {
         "Authorization": f"Bearer {session['token']}",
         "Cache-Control": "no-cache, no-store, must-revalidate",
@@ -116,7 +120,7 @@ def videos_page():
     resp.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, max-age=0'
     resp.headers['Pragma'] = 'no-cache'
     resp.headers['Expires'] = '0'
-
+    print("BEFORE API CALL")
     return resp
 
 @app.route('/telegram')
