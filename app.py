@@ -75,54 +75,57 @@ def upload():
 import time
 from flask import make_response
 
-from flask import abort
-
 @app.route('/videos')
 def videos_page():
-
+    # ✅ Always check session first
+    if 'token' not in session:
+        return redirect('/login')
+    print("=== /videos HIT ===")
+    return render_template("videos.html",);
+    # ✅ Always check session first
+    if 'token' not in session:
+        return redirect('/login')
     print("=== /videos HIT ===")
 
     token = session.get('token')
+    print("TOKEN:", token)
 
     if not token:
-        print("❌ NO TOKEN")
+        print("NO TOKEN → redirecting")
         return redirect('/login')
-
     api_url = f"https://tubeboxservers-production.up.railway.app/api/admin/videos?_={int(time.time())}"
-
+    print("BEFORE API CALL")
     headers = {
-        "Authorization": f"Bearer {token}",
+        "Authorization": f"Bearer {session['token']}",
         "Cache-Control": "no-cache, no-store, must-revalidate",
         "Pragma": "no-cache",
         "Expires": "0"
     }
 
-    print("🚀 CALLING API...")
-
     try:
         response = requests.get(api_url, timeout=20, headers=headers)
 
-        print("STATUS:", response.status_code)
+        print("Status:", response.status_code)
 
-        # ❌ HARD STOP if not 200
-        if response.status_code != 200:
-            print("❌ API FAILED:", response.text)
-            abort(500, description="API FAILED")
-
-        videos = response.json()
-
-        # ❌ HARD STOP if empty or invalid
-        if not videos:
-            print("❌ EMPTY DATA")
-            abort(500, description="NO DATA")
+        if response.status_code == 200:
+            videos = response.json()
+            print("Data:", videos)
+        else:
+            videos = []
+            flash("Could not load videos.")
 
     except Exception as e:
-        print("🔥 EXCEPTION:", e)
-        abort(500, description="REQUEST FAILED")
+        print("Videos Error:", e)
+        videos = []
+        flash("Server connection failed.")
 
-    print("✅ DATA RECEIVED")
-
-    return render_template("videos.html", videos=videos)
+    # ✅ Prevent browser caching
+    resp = make_response(render_template("videos.html", videos=videos))
+    resp.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, max-age=0'
+    resp.headers['Pragma'] = 'no-cache'
+    resp.headers['Expires'] = '0'
+    print("BEFORE API CALL")
+    return resp
 
 @app.route('/telegram')
 def telegram():
@@ -210,7 +213,7 @@ def login():
             session['admin_id'] = data['admin']['id']
             session['admin_username'] = data['admin']['username']
 
-            return redirect('/analytics')
+            return render_template("login_success.html", token=data['token'])
 
         else:
             flash("Invalid username or password")
