@@ -77,7 +77,14 @@ def videos_page():
     # ✅ Always check session first
     if 'token' not in session:
         return redirect('/login')
+    print("=== /videos HIT ===")
 
+    token = session.get('token')
+    print("TOKEN:", token)
+
+    if not token:
+        print("NO TOKEN → redirecting")
+        return redirect('/login')
     api_url = f"https://tubeboxservers-production.up.railway.app/api/admin/videos?_={int(time.time())}"
 
     headers = {
