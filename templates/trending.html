@@ -1,0 +1,149 @@
+
+
+
+
+
+{% extends "my_base.html" %}
+
+{% block title %}Social Links- Tubebox{% endblock %}
+
+{% block content %}
+
+<style>
+.trend-card {
+    background: rgba(0,0,0,0.6);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 16px;
+    padding: 20px;
+    transition: 0.3s;
+}
+.trend-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(255,255,255,0.3);
+}
+
+.trend-icon {
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.join-btn {
+    margin-top: 10px;
+}
+</style>
+
+
+<!-- Header -->
+<section class="text-center py-5">
+<div class="container">
+<h1 class="display-4 text-white fw-bold">
+Trending <span class="text-highlight">Now</span>
+</h1>
+<p class="text-white mt-3">
+Discover trending content through our communities.
+</p>
+</div>
+</section>
+
+<!-- Info Notice -->
+<section class="text-center mb-4">
+<div class="container">
+<p class="text-warning">
+⚡ Videos are shared via our official groups. Join below to access trending content.
+</p>
+</div>
+</section>
+
+<!-- Trending Sources -->
+<section class="py-5">
+<div class="container">
+<div class="row g-4 justify-content-center">
+
+<!-- Telegram Group 1 -->
+<div class="col-md-6 col-lg-4">
+<div class="trend-card text-center">
+<i class="fa-brands fa-telegram trend-icon text-info"></i>
+<h5 class="text-white">Tubebox Trending Hub</h5>
+<p class="text-white">Daily trending videos shared instantly.</p>
+<a href="https://t.me/yourchannel" target="_blank"
+class="btn btn-outline-info join-btn rounded-pill px-4">
+Join Telegram
+</a>
+</div>
+</div>
+
+<!-- Telegram Group 2 -->
+<div class="col-md-6 col-lg-4">
+<div class="trend-card text-center">
+<i class="fa-brands fa-telegram trend-icon text-info"></i>
+<h5 class="text-white">Movie & Series Drops</h5>
+<p class="text-white">Latest movie clips and series highlights.</p>
+<a href="https://t.me/yourchannel2" target="_blank"
+class="btn btn-outline-info join-btn rounded-pill px-4">
+Join Channel
+</a>
+</div>
+</div>
+
+<!-- Instagram Page -->
+<div class="col-md-6 col-lg-4">
+<div class="trend-card text-center">
+<i class="fa-brands fa-instagram trend-icon text-warning"></i>
+<h5 class="text-white">Tubebox Reels</h5>
+<p class="text-white">Short viral clips & trending reels.</p>
+<a href="https://instagram.com/yourprofile" target="_blank"
+class="btn btn-outline-warning join-btn rounded-pill px-4">
+View Instagram
+</a>
+</div>
+</div>
+
+<!-- Instagram Community -->
+<div class="col-md-6 col-lg-4">
+<div class="trend-card text-center">
+<i class="fa-brands fa-instagram trend-icon text-danger"></i>
+<h5 class="text-white">Creator Highlights</h5>
+<p class="text-white">Top creators & viral content picks.</p>
+<a href="#" class="btn btn-outline-danger join-btn rounded-pill px-4">
+Explore
+</a>
+</div>
+</div>
+
+<!-- Premium Channel -->
+<div class="col-md-6 col-lg-4">
+<div class="trend-card text-center">
+<i class="fa-solid fa-star trend-icon text-success"></i>
+<h5 class="text-white">Premium Content</h5>
+<p class="text-white">Ad-free exclusive trending videos.</p>
+<a href="#" class="btn btn-outline-success join-btn rounded-pill px-4">
+Join Premium
+</a>
+</div>
+</div>
+
+<!-- Discord -->
+<div class="col-md-6 col-lg-4">
+<div class="trend-card text-center">
+<i class="fa-brands fa-discord trend-icon text-primary"></i>
+<h5 class="text-white">Community Chat</h5>
+<p class="text-white">Discuss trends with other users.</p>
+<a href="#" class="btn btn-outline-primary join-btn rounded-pill px-4">
+Join Discord
+</a>
+</div>
+</div>
+
+</div>
+</div>
+</section>
+
+<!-- CTA -->
+<section class="text-center py-5">
+<div class="container">
+<h2 class="text-white mb-3">Never Miss a Trend 🚀</h2>
+<p class="text-white">Join our communities to stay updated in real-time.</p>
+</div>
+</section>
+
+{% endblock %}

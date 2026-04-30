@@ -153,3 +153,13 @@ body {
     border-color: rgba(31, 156, 64, 0.5);
     box-shadow: 0 0 0 0.25rem rgba(31, 156, 64, 0.25);
 }
+.btn-green-custom {
+    background-color: #28a745;   /* green */
+    color: #ffffff;
+    border: none;
+}
+
+.btn-green-custom:hover {
+    background-color: #218838;   /* darker green on hover */
+    color: #ffffff;
+}

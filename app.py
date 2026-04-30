@@ -117,9 +117,30 @@ def why():
 def ads():
     return render_template('ads.html')
 
+@app.route('/dmca')
+def dmca():
+    return render_template('dmca.html')
+
+@app.route('/faq')
+def faq():
+    return render_template('faq.html')
+
+
+@app.route('/social')
+def social():
+    return render_template('social.html')
+@app.route('/trending')
+def trending():
+    return render_template('trending.html')
+@app.route('/feature')
+def feature():
+    return render_template('feature.html')
+
+
 @app.route('/analytics')
 def analytics():
     return render_template('analytics.html')
+
 @app.route('/app')
 def download():
     return redirect("https://play.google.com/store/apps/details?id=com.tube.box.entertainment.app&hl=en_IN")

@@ -1,0 +1,118 @@
+
+{% extends "my_base.html" %}
+
+{% block title %}Social Links- Tubebox{% endblock %}
+
+{% block content %}
+
+<style>
+.feature-card {
+    background: rgba(0,0,0,0.5);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 16px;
+    padding: 25px;
+    transition: 0.3s;
+}
+.feature-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(255,255,255,0.3);
+}
+.feature-icon {
+    font-size: 2rem;
+    color: var(--light-green);
+    margin-bottom: 10px;
+}
+</style>
+
+
+<!-- Header -->
+<section class="text-center py-5">
+<div class="container">
+<h1 class="display-4 text-white fw-bold">
+Powerful <span class="text-highlight">Features</span>
+</h1>
+<p class="text-white mt-3">Everything you need for next-gen video streaming.</p>
+</div>
+</section>
+
+<!-- Features Grid -->
+<section class="py-5">
+<div class="container">
+<div class="row g-4">
+
+<div class="col-md-6 col-lg-4">
+<div class="feature-card">
+<div class="feature-icon"><i class="fa-solid fa-cloud"></i></div>
+<h5 class="text-white">Cloudflare CDN Streaming</h5>
+<p class="text-white">Ultra-fast delivery powered by global edge networks for zero buffering experience.</p>
+</div>
+</div>
+
+<div class="col-md-6 col-lg-4">
+<div class="feature-card">
+<div class="feature-icon"><i class="fa-solid fa-globe"></i></div>
+<h5 class="text-white">Fast Global Streaming</h5>
+<p class="text-white">Stream videos instantly anywhere in the world with optimized routing.</p>
+</div>
+</div>
+
+<div class="col-md-6 col-lg-4">
+<div class="feature-card">
+<div class="feature-icon"><i class="fa-solid fa-bolt"></i></div>
+<h5 class="text-white">One Shot View</h5>
+<p class="text-white">Instant playback with a single click — no loading delays.</p>
+</div>
+</div>
+
+<div class="col-md-6 col-lg-4">
+<div class="feature-card">
+<div class="feature-icon"><i class="fa-solid fa-ban"></i></div>
+<h5 class="text-white">No Ads (Premium)</h5>
+<p class="text-white">Enjoy uninterrupted viewing with our ad-free subscription model.</p>
+</div>
+</div>
+
+<div class="col-md-6 col-lg-4">
+<div class="feature-card">
+<div class="feature-icon"><i class="fa-solid fa-infinity"></i></div>
+<h5 class="text-white">Unlimited Storage</h5>
+<p class="text-white">Upload unlimited content without worrying about limits.</p>
+</div>
+</div>
+
+<div class="col-md-6 col-lg-4">
+<div class="feature-card">
+<div class="feature-icon"><i class="fa-solid fa-lock"></i></div>
+<h5 class="text-white">Secure Streaming</h5>
+<p class="text-white">Protected content delivery with advanced encryption.</p>
+</div>
+</div>
+
+</div>
+</div>
+</section>
+
+<!-- YouTube Section -->
+<section class="py-5 text-center">
+<div class="container">
+<h2 class="text-white mb-4">See Tubebox in Action</h2>
+
+<div class="ratio ratio-16x9">
+<iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+title="Tubebox Demo"
+allowfullscreen></iframe>
+</div>
+
+</div>
+</section>
+
+<!-- CTA -->
+<section class="py-5 text-center">
+<div class="container">
+<h2 class="text-white mb-3">Start Streaming Today</h2>
+<a href="#" class="btn btn-lg btn-success rounded-pill px-4">Get Started</a>
+</div>
+</section>
+
+
+{% endblock %}

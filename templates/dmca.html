@@ -1,0 +1,117 @@
+
+{% extends "my_base.html" %}
+
+{% block title %}Social Links- Tubebox{% endblock %}
+
+{% block content %}
+    <style>
+        .legal-content h2, .legal-content h3 {
+            color: white;
+            font-weight: 700;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+        }
+        .legal-content h2 {
+            font-size: 1.75rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 0.5rem;
+        }
+        .legal-content h3 {
+            font-size: 1.25rem;
+            color: var(--light-green);
+        }
+        .legal-content p, .legal-content li {
+            color: rgba(255,255,255,0.85);
+            line-height: 1.7;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-transparent pt-4">
+    <div class="container">
+        <a class="navbar-brand fw-bold text-white fs-4 d-flex align-items-center gap-2" href="index.html">
+            <i class="fa-solid fa-play text-highlight"></i>
+            <span>Tube<span class="text-highlight">box</span></span>
+        </a>
+    </div>
+</nav>
+
+<!-- Header -->
+<section class="py-5 mt-4 text-center">
+    <div class="container">
+        <h1 class="display-4 fw-bold text-white mb-3">
+            DMCA <span class="text-highlight">Policy</span>
+        </h1>
+        <p class="lead text-white mx-auto" style="max-width:600px;">
+            Copyright infringement notification and takedown procedure.
+        </p>
+    </div>
+</section>
+
+<!-- Content -->
+<section class="py-5 mb-5">
+<div class="container">
+<div class="row justify-content-center">
+<div class="col-lg-8">
+
+<div class="bg-dark bg-opacity-50 rounded-4 p-4 p-md-5 border border-secondary border-opacity-25 shadow-lg legal-content">
+
+<h2>1. Introduction</h2>
+<p>Tubebox respects the intellectual property rights of others. We comply with the Digital Millennium Copyright Act (DMCA) and respond to properly submitted copyright infringement notices.</p>
+
+<h2>2. Reporting Copyright Infringement</h2>
+<p>If you believe your content has been used without authorization, you may submit a DMCA takedown request.</p>
+
+<h3>Your notice must include:</h3>
+<ul>
+<li>Your full name and contact information</li>
+<li>Description of the copyrighted work</li>
+<li>URL of the infringing content</li>
+<li>A statement of good faith belief</li>
+<li>A statement under penalty of perjury</li>
+<li>Your physical or electronic signature</li>
+</ul>
+
+<h2>3. Takedown Procedure</h2>
+<p>Upon receiving a valid DMCA request, Tubebox will:</p>
+<ul>
+<li>Remove or disable access to the content</li>
+<li>Notify the user who uploaded it</li>
+<li>Take action for repeat violations</li>
+</ul>
+
+<h2>4. Counter Notification</h2>
+<p>If you believe your content was removed by mistake, you may submit a counter-notification including:</p>
+<ul>
+<li>Your contact details</li>
+<li>Identification of removed content</li>
+<li>A statement under penalty of perjury</li>
+<li>Consent to jurisdiction</li>
+</ul>
+
+<h2>5. Repeat Infringers</h2>
+<p>Accounts that repeatedly violate copyright laws may be permanently suspended.</p>
+
+<h2>6. Contact Information</h2>
+<p>Send DMCA notices to:</p>
+
+<p>
+<strong>Tubebox DMCA Agent</strong><br>
+Email: dmca@tubebox.com<br>
+Address: 123 Streaming Blvd, Suite 100<br>
+Web City, WC 12345
+</p>
+
+<h2>7. Changes to This Policy</h2>
+<p>We may update this DMCA policy at any time. Continued use of Tubebox means acceptance of the updated policy.</p>
+
+</div>
+</div>
+</div>
+</div>
+</section>
+
+{% endblock %}

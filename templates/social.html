@@ -1,0 +1,126 @@
+
+
+
+
+{% extends "my_base.html" %}
+
+{% block title %}Social Links- Tubebox{% endblock %}
+
+{% block content %}
+<style>
+.social-card {
+    background: rgba(0,0,0,0.6);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 16px;
+    padding: 20px;
+    transition: 0.3s;
+}
+.social-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(255,255,255,0.3);
+}
+
+.social-icon {
+    font-size: 1.8rem;
+    margin-right: 12px;
+}
+
+.social-link {
+    text-decoration: none;
+    color: white;
+    font-weight: 500;
+}
+
+.social-link:hover {
+    color: var(--light-green);
+}
+</style>
+
+<!-- Header -->
+<section class="text-center py-5">
+<div class="container">
+<h1 class="display-4 text-white fw-bold">
+Connect with <span class="text-highlight">Tubebox</span>
+</h1>
+<p class="text-white mt-3">Follow us across platforms and stay updated.</p>
+</div>
+</section>
+
+<!-- Social Links -->
+<section class="py-5">
+<div class="container">
+<div class="row g-4 justify-content-center">
+
+<!-- Telegram -->
+<div class="col-md-6 col-lg-4">
+<div class="social-card d-flex align-items-center">
+<i class="fa-brands fa-telegram social-icon text-info"></i>
+<a href="https://t.me/yourchannel" class="social-link" target="_blank">
+Telegram Channel
+</a>
+</div>
+</div>
+
+<!-- YouTube -->
+<div class="col-md-6 col-lg-4">
+<div class="social-card d-flex align-items-center">
+<i class="fa-brands fa-youtube social-icon text-danger"></i>
+<a href="https://youtube.com/@yourchannel" class="social-link" target="_blank">
+YouTube
+</a>
+</div>
+</div>
+
+<!-- Instagram -->
+<div class="col-md-6 col-lg-4">
+<div class="social-card d-flex align-items-center">
+<i class="fa-brands fa-instagram social-icon text-warning"></i>
+<a href="https://instagram.com/yourprofile" class="social-link" target="_blank">
+Instagram
+</a>
+</div>
+</div>
+
+<!-- Discord -->
+<div class="col-md-6 col-lg-4">
+<div class="social-card d-flex align-items-center">
+<i class="fa-brands fa-discord social-icon text-primary"></i>
+<a href="#" class="social-link">
+Discord Community
+</a>
+</div>
+</div>
+
+<!-- Twitter / X -->
+<div class="col-md-6 col-lg-4">
+<div class="social-card d-flex align-items-center">
+<i class="fa-brands fa-x-twitter social-icon text-light"></i>
+<a href="#" class="social-link">
+Twitter / X
+</a>
+</div>
+</div>
+
+<!-- Email -->
+<div class="col-md-6 col-lg-4">
+<div class="social-card d-flex align-items-center">
+<i class="fa-solid fa-envelope social-icon text-success"></i>
+<a href="mailto:support@tubebox.com" class="social-link">
+support@tubebox.com
+</a>
+</div>
+</div>
+
+</div>
+</div>
+</section>
+
+<!-- CTA -->
+<section class="text-center py-5">
+<div class="container">
+<h2 class="text-white mb-3">Join Our Community 🚀</h2>
+<p class="text-white">Stay updated with new features, updates, and content.</p>
+</div>
+</section>
+
+{% endblock %}
