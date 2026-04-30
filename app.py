@@ -70,9 +70,12 @@ def upload():
 
 @app.route('/videos')
 def videos_page():
-
+    
     api_url = "https://tubeboxservers-production.up.railway.app/api/admin/videos"
     headers = {"Authorization": f"Bearer {session['token']}"}
+    if 'token' not in session:
+        return redirect('/login')
+
     try:
         response = requests.get(api_url, timeout=20, headers=headers)
         print(response)
@@ -95,6 +98,8 @@ def videos_page():
 
 @app.route('/telegram')
 def telegram():
+    if 'token' not in session:
+        return redirect('/login')
     return render_template('telegram.html')
 
 @app.route('/contact')
@@ -115,6 +120,8 @@ def why():
 
 @app.route('/ads')
 def ads():
+    if 'token' not in session:
+        return redirect('/login')
     return render_template('ads.html')
 
 @app.route('/dmca')
@@ -139,8 +146,13 @@ def feature():
 
 @app.route('/analytics')
 def analytics():
+    if 'token' not in session:
+        return redirect('/login')
     return render_template('analytics.html')
-
+@app.route('/logout')
+def logout():
+    session.clear()
+    return render_template('index.html')
 @app.route('/app')
 def download():
     return redirect("https://play.google.com/store/apps/details?id=com.tube.box.entertainment.app&hl=en_IN")
@@ -170,7 +182,7 @@ def login():
             session['admin_id'] = data['admin']['id']
             session['admin_username'] = data['admin']['username']
 
-            return redirect('/upload')
+            return redirect('/analytics')
 
         else:
             flash("Invalid username or password")
