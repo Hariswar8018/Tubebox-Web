@@ -5,7 +5,8 @@ import os
 import requests
 import time
 from werkzeug.middleware.proxy_fix import ProxyFix
-
+import json
+from flask import Response
 
 app = Flask(__name__)
 app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1, x_host=1)
@@ -187,6 +188,29 @@ def logout():
 @app.route('/app')
 def download():
     return redirect("https://play.google.com/store/apps/details?id=com.tube.box.entertainment.app&hl=en_IN")
+
+
+
+@app.route('/.well-known/assetlinks.json')
+def asset_links():
+    data = [
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.starwish.tubeboxs",
+      "sha256_cert_fingerprints": [
+        "24:5E:C1:5F:01:10:24:30:30:D6:F9:46:A8:C8:88:BA:C7:4F:11:87:E7:67:AD:1C:CE:B1:3D:89:6C:AA:68:F5"
+      ]
+    }
+  }
+]
+    return Response(
+        json.dumps(data),
+        mimetype='application/json'
+    )
+
+
 
 @app.route('/login', methods=['POST','GET'])
 def login():
